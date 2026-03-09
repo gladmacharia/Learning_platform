@@ -1,6 +1,6 @@
 const API_URL = "http://127.0.0.1:8000";
 
-// ─── STATE ────────────────────────────────────────────────────
+
 let studentId       = null;
 let studentName     = null;
 let currentTopic    = "";
@@ -14,13 +14,11 @@ let quizFinished    = false;
 let sessionTotal    = 0;
 let sessionCorrect  = 0;
 
-// ─── SCREEN SWITCHER ──────────────────────────────────────────
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
 
-// ─── LOGIN TAB SWITCHER ───────────────────────────────────────
 function switchLoginTab(role) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
@@ -28,7 +26,7 @@ function switchLoginTab(role) {
     document.getElementById(`login-${role}`).classList.add('active');
 }
 
-// ─── STUDENT LOGIN ────────────────────────────────────────────
+//  STUDENT LOGIN 
 async function studentLogin() {
     const email = document.getElementById('s-email').value.trim();
     const name  = document.getElementById('s-name').value.trim();
@@ -76,7 +74,7 @@ async function studentLogin() {
     }
 }
 
-// ─── TEACHER LOGIN ────────────────────────────────────────────
+//  TEACHER LOGIN 
 function teacherLogin() {
     const pass = document.getElementById('t-pass').value;
     const err  = document.getElementById('t-error');
@@ -90,7 +88,7 @@ function teacherLogin() {
     }
 }
 
-// ─── LOGOUT ───────────────────────────────────────────────────
+//  LOGOUT 
 function logout() {
     // Reset all state
     studentId = studentName = currentQuestion = currentAnswer = null;
@@ -112,7 +110,7 @@ function logout() {
     showScreen('screen-login');
 }
 
-// ─── STUDENT TABS ─────────────────────────────────────────────
+//  STUDENT TABS 
 function showStudentTab(tabId) {
     document.querySelectorAll('.student-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.topnav-tabs .nav-tab').forEach(b => b.classList.remove('active'));
@@ -122,7 +120,7 @@ function showStudentTab(tabId) {
     if (tabId === 'tab-progress') loadProgress();
 }
 
-// ─── TEACHER TABS ─────────────────────────────────────────────
+//  TEACHER TABS 
 function showTeacherTab(tabId) {
     document.querySelectorAll('.teacher-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.topnav-tabs .nav-tab').forEach(b => b.classList.remove('active'));
@@ -130,14 +128,14 @@ function showTeacherTab(tabId) {
     event.currentTarget.classList.add('active');
 }
 
-// ─── DIFFICULTY SELECTOR ──────────────────────────────────────
+//  DIFFICULTY SELECTOR 
 function setDifficulty(btn) {
     document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentDifficulty = btn.dataset.val;
 }
 
-// ─── START QUIZ ───────────────────────────────────────────────
+// START QUIZ 
 async function startQuiz() {
     currentTopic    = document.getElementById('topic-select').value;
     aiQuestionCount = 0;
@@ -155,7 +153,7 @@ async function startQuiz() {
     await loadNextQuestion();
 }
 
-// ─── LOAD NEXT QUESTION ───────────────────────────────────────
+// LOAD NEXT QUESTION 
 async function loadNextQuestion() {
     if (quizFinished) return;
     setInputEnabled(false);
@@ -226,7 +224,7 @@ async function loadNextQuestion() {
     }
 }
 
-// ─── SUBMIT ANSWER ────────────────────────────────────────────
+// SUBMIT ANSWER 
 async function submitAnswer() {
     const input  = document.getElementById('answer-input');
     const answer = input.value.trim();
@@ -280,12 +278,12 @@ async function submitAnswer() {
     }
 }
 
-// ─── KEY HANDLER ──────────────────────────────────────────────
+// KEY HANDLER 
 function handleKey(e) {
     if (e.key === 'Enter') submitAnswer();
 }
 
-// ─── CHAT HELPER ──────────────────────────────────────────────
+// CHAT HELPER 
 function addChat(sender, text) {
     const box = document.getElementById('chat-box');
 
@@ -305,7 +303,7 @@ function addChat(sender, text) {
     box.scrollTop = box.scrollHeight;
 }
 
-// ─── INPUT STATE ──────────────────────────────────────────────
+// INPUT STATE 
 function setInputEnabled(on) {
     const input = document.getElementById('answer-input');
     const btn   = document.getElementById('send-btn');
@@ -313,14 +311,14 @@ function setInputEnabled(on) {
     btn.disabled   = !on;
 }
 
-// ─── SIDEBAR STATS ────────────────────────────────────────────
+// SIDEBAR STATS 
 function updateSidebarStats() {
     document.getElementById('stat-q-count').textContent = sessionTotal;
     document.getElementById('stat-correct').textContent = sessionCorrect;
     document.getElementById('stat-ai').textContent      = aiQuestionCount;
 }
 
-// ─── LOAD PROGRESS ────────────────────────────────────────────
+// LOAD PROGRESS 
 async function loadProgress() {
     const container = document.getElementById('progress-content');
     container.innerHTML = '<div class="empty-state">// LOADING DATA...</div>';
@@ -379,7 +377,7 @@ async function loadProgress() {
     }
 }
 
-// ─── LOAD ANALYTICS (TEACHER) ─────────────────────────────────
+// LOAD ANALYTICS (TEACHER) 
 async function loadAnalytics() {
     // Hardest topic
     try {
@@ -418,7 +416,7 @@ async function loadAnalytics() {
     }
 }
 
-// ─── SAVE QUESTION (TEACHER) ──────────────────────────────────
+// SAVE QUESTION (TEACHER) 
 async function saveQuestion() {
     const topic  = document.getElementById('q-topic').value;
     const diff   = document.getElementById('q-diff').value;

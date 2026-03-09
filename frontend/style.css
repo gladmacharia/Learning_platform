@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* ─── TOKENS ─────────────────────────────────────────── */
 :root {
     --bg:         #080c10;
     --bg2:        #0d1117;
@@ -22,7 +21,7 @@
     --nav-h:      56px;
 }
 
-/* ─── RESET & BASE ───────────────────────────────────── */
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
@@ -34,7 +33,6 @@ html, body {
     overflow: hidden;
 }
 
-/* ─── BACKGROUND EFFECTS ─────────────────────────────── */
 .bg-grid {
     position: fixed; inset: 0; z-index: 0;
     background-image:
@@ -56,7 +54,7 @@ html, body {
     pointer-events: none;
 }
 
-/* ─── SCREENS ────────────────────────────────────────── */
+
 .screen {
     position: fixed; inset: 0; z-index: 1;
     display: none;
@@ -64,7 +62,7 @@ html, body {
 }
 .screen.active { display: flex; }
 
-/* ─── LOGIN SCREEN ───────────────────────────────────── */
+
 #screen-login {
     justify-content: center;
     align-items: center;
@@ -226,7 +224,6 @@ select.field-input option { background: var(--bg2); color: var(--text-hi); }
     min-height: 16px;
 }
 
-/* ─── TOP NAV ─────────────────────────────────────────── */
 .topnav {
     height: var(--nav-h);
     background: var(--bg2);
@@ -304,14 +301,12 @@ select.field-input option { background: var(--bg2); color: var(--text-hi); }
 }
 .btn-logout:hover { background: rgba(255,77,109,0.1); border-color: var(--red); }
 
-/* ─── STUDENT LAYOUT ─────────────────────────────────── */
 .student-layout {
     display: flex;
     flex: 1;
     overflow: hidden;
 }
 
-/* Sidebar */
 .sidebar {
     width: var(--sidebar-w);
     background: var(--bg2);
@@ -533,7 +528,6 @@ select.field-input option { background: var(--bg2); color: var(--text-hi); }
 .score-bar-fill.mid { background: var(--amber); }
 .score-bar-fill.low { background: var(--red); }
 
-/* ─── TEACHER LAYOUT ─────────────────────────────────── */
 .teacher-layout {
     flex: 1;
     overflow: hidden;
@@ -599,7 +593,6 @@ select.field-input option { background: var(--bg2); color: var(--text-hi); }
 .status-msg.ok { color: var(--green); }
 .status-msg.err { color: var(--red); }
 
-/* ─── UTILITIES ───────────────────────────────────────── */
 .empty-state {
     text-align: center;
     padding: 40px;
@@ -615,7 +608,6 @@ select.field-input option { background: var(--bg2); color: var(--text-hi); }
 ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--green); }
 
-/* ─── ANIMATIONS ─────────────────────────────────────── */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
