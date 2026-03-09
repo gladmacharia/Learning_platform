@@ -13,6 +13,6 @@ It also helps teachers by showing them exactly which students are struggling and
 
 ## Tools Used
 * **Backend:** FastAPI (Python)
-* **Frontend:** Streamlit (Python)
+* **Frontend:** HTML, CSS, JAVASCRIPT
 * **Database:** PostgreSQL (Aiven Cloud)
 * **AI:** Groq AI
