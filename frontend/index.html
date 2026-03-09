@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Learning Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    
+    <div class="bg-grid"></div>
+    <div class="scanline"></div>
+
+    <!-- LOGIN -->
+    <div id="screen-login" class="screen active">
+        <div class="login-wrap">
+            <div class="login-header">
+                <div class="logo-mark">
+                    <span class="logo-bracket">[</span>
+                    <span class="logo-icon">⬡</span>
+                    <span class="logo-bracket">]</span>
+                </div>
+                <h1 class="logo-title">EduAI<span class="accent">_</span></h1>
+                <p class="logo-sub">Adaptive Learning Platform </p>
+            </div>
+
+            <div class="tab-switcher">
+                <button class="tab-btn active" onclick="switchLoginTab('student')">
+                    <span>◈</span> Student Portal
+                </button>
+                <button class="tab-btn" onclick="switchLoginTab('teacher')">
+                    <span>◆</span> Teacher Dashboard
+                </button>
+            </div>
+
+            <!-- Student Login -->
+            <div id="login-student" class="login-form active">
+                <div class="field-group">
+                    <label class="field-label">// EMAIL ADDRESS</label>
+                    <input type="email" id="s-email" class="field-input" placeholder="student@school.com">
+                </div>
+                <div class="field-group">
+                    <label class="field-label">// FULL NAME <span class="muted">(new students only)</span></label>
+                    <input type="text" id="s-name" class="field-input" placeholder="Leave blank if returning">
+                </div>
+                <button class="btn-primary" onclick="studentLogin()">
+                    <span>INITIALIZE SESSION</span> <span class="btn-arrow">→</span>
+                </button>
+                <p id="s-error" class="error-msg"></p>
+            </div>
+
+            <!-- Teacher Login -->
+            <div id="login-teacher" class="login-form">
+                <div class="field-group">
+                    <label class="field-label">// ADMINISTRATOR PASSCODE</label>
+                    <input type="password" id="t-pass" class="field-input" placeholder="••••••••">
+                </div>
+                <button class="btn-primary" onclick="teacherLogin()">
+                    <span>ACCESS DASHBOARD</span> <span class="btn-arrow">→</span>
+                </button>
+                <p id="t-error" class="error-msg"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- STUDENT PORTAL-->
+    <div id="screen-student" class="screen">
+
+       
+        <nav class="topnav">
+            <div class="topnav-brand">
+                <span class="logo-bracket">[</span>⬡<span class="logo-bracket">]</span>
+                <span class="nav-title">EduAI_</span>
+            </div>
+            <div class="topnav-tabs">
+                <button class="nav-tab active" onclick="showStudentTab('tab-chat')">🤖 AI Tutor</button>
+                <button class="nav-tab" onclick="showStudentTab('tab-progress')">📊 My Progress</button>
+            </div>
+            <div class="topnav-right">
+                <span id="nav-student-name" class="nav-username"></span>
+                <button class="btn-logout" onclick="logout()">Logout ⏻</button>
+            </div>
+        </nav>
+
+        <div class="student-layout">
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <p class="sidebar-label">// SUBJECT</p>
+                    <select id="topic-select" class="field-input">
+                        <option value="Python Programming">Python Programming</option>
+                        <option value="SQL Databases">SQL Databases</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Web Development">Web Development</option>
+                    </select>
+                </div>
+                <div class="sidebar-section">
+                    <p class="sidebar-label">// DIFFICULTY</p>
+                    <div class="diff-btns">
+                        <button class="diff-btn active" data-val="beginner" onclick="setDifficulty(this)">Beginner</button>
+                        <button class="diff-btn" data-val="intermediate" onclick="setDifficulty(this)">Intermediate</button>
+                        <button class="diff-btn" data-val="advanced" onclick="setDifficulty(this)">Advanced</button>
+                    </div>
+                </div>
+                <button class="btn-primary sidebar-start" onclick="startQuiz()">
+                    START QUIZ 🚀
+                </button>
+                <div class="sidebar-stats" id="sidebar-stats" style="display:none">
+                    <div class="stat-item">
+                        <span class="stat-label">Session Questions</span>
+                        <span class="stat-val" id="stat-q-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Correct</span>
+                        <span class="stat-val correct" id="stat-correct">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">AI Generated</span>
+                        <span class="stat-val" id="stat-ai">0</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT -->
+            <main class="student-main">
+
+                <div id="tab-chat" class="student-tab active">
+                    <div id="chat-box" class="chat-box">
+                        <div class="chat-welcome">
+                            <div class="welcome-icon">⬡</div>
+                            <h2>Ready to learn?</h2>
+                            <p>Select a subject and difficulty, then hit <strong>Start Quiz</strong> to begin your session.</p>
+                        </div>
+                    </div>
+                    <div class="chat-input-row" id="chat-input-row">
+                        <input type="text" id="answer-input" class="chat-input" placeholder="Type your answer and press Enter..." onkeypress="handleKey(event)" disabled>
+                        <button class="chat-send-btn" id="send-btn" onclick="submitAnswer()" disabled>SEND →</button>
+                    </div>
+                </div>
+
+                <!-- TAB: PROGRESS -->
+                <div id="tab-progress" class="student-tab">
+                    <div class="tab-header">
+                        <h2>Learning Dashboard</h2>
+                        <button class="btn-refresh" onclick="loadProgress()">↻ Refresh</button>
+                    </div>
+                    <div id="progress-content">
+                        <div class="empty-state">Select the Progress tab to load your data.</div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+
+    <!-- TEACHER DASHBOARD -->
+    <div id="screen-teacher" class="screen">
+
+        <nav class="topnav">
+            <div class="topnav-brand">
+                <span class="logo-bracket">[</span>⬡<span class="logo-bracket">]</span>
+                <span class="nav-title">EduAI_ Admin</span>
+            </div>
+            <div class="topnav-tabs">
+                <button class="nav-tab active" onclick="showTeacherTab('tab-analytics')">📊 Analytics</button>
+                <button class="nav-tab" onclick="showTeacherTab('tab-qbank')">📝 Question Bank</button>
+            </div>
+            <div class="topnav-right">
+                <span class="nav-username admin-badge">ADMINISTRATOR</span>
+                <button class="btn-logout" onclick="logout()">Logout ⏻</button>
+            </div>
+        </nav>
+
+        <div class="teacher-layout">
+            <!-- ANALYTICS -->
+            <div id="tab-analytics" class="teacher-tab active">
+                <div class="tab-header">
+                    <h2>School Analytics Overview</h2>
+                    <button class="btn-refresh" onclick="loadAnalytics()">↻ Refresh Data</button>
+                </div>
+
+                <div class="analytics-grid">
+                    <!-- Hardest Subject KPI -->
+                    <div class="kpi-card" id="kpi-hardest">
+                        <div class="kpi-icon">🔥</div>
+                        <div class="kpi-label">HARDEST SUBJECT</div>
+                        <div class="kpi-value" id="hardest-topic">—</div>
+                        <div class="kpi-sub" id="hardest-score">Loading...</div>
+                    </div>
+
+                    <!-- At-risk KPI -->
+                    <div class="kpi-card" id="kpi-atrisk">
+                        <div class="kpi-icon">⚠️</div>
+                        <div class="kpi-label">AT-RISK STUDENTS</div>
+                        <div class="kpi-value" id="atrisk-count">—</div>
+                        <div class="kpi-sub">Below 60% average</div>
+                    </div>
+                </div>
+
+                <!-- Struggling Students List -->
+                <div class="section-block">
+                    <p class="section-title">// STUDENTS NEEDING ATTENTION</p>
+                    <div id="struggling-list">
+                        <div class="empty-state">Click Refresh to load data.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTION BANK -->
+            <div id="tab-qbank" class="teacher-tab">
+                <div class="tab-header">
+                    <h2>Manage Question Bank</h2>
+                </div>
+                <p class="tab-desc">Questions added here are shown to students <em>before</em> AI-generated questions. Add official curriculum content to guide learning.</p>
+
+                <div class="qbank-form">
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label class="field-label">// TOPIC</label>
+                            <select id="q-topic" class="field-input">
+                                <option value="Python Programming">Python Programming</option>
+                                <option value="SQL Databases">SQL Databases</option>
+                                <option value="Data Science">Data Science</option>
+                                <option value="Web Development">Web Development</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label class="field-label">// DIFFICULTY</label>
+                            <select id="q-diff" class="field-input">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">// QUESTION TEXT</label>
+                        <textarea id="q-text" class="field-input field-textarea" placeholder="e.g., What keyword is used to define a function in Python?"></textarea>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">// CORRECT ANSWER</label>
+                        <input type="text" id="q-answer" class="field-input" placeholder="e.g., def">
+                    </div>
+                    <button class="btn-primary" onclick="saveQuestion()">
+                        💾 SAVE TO QUESTION BANK
+                    </button>
+                    <p id="q-status" class="status-msg"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from database import init_db, get_db_connection
 from schemas import StudentCreate,AnswerSubmission,QuestionRequest,TeacherQuestionCreate
 from ai import get_ai_feedback,generate_question
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
@@ -16,6 +17,13 @@ async def lifespan(app: FastAPI):
     print("Shutting down...")
 
 app = FastAPI(title="Learning Platform API", lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():
